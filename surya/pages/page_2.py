@@ -14,6 +14,8 @@ import streamlit as st
 st.title("Dashboard")
 if "user_id" in st.session_state:
     st.write(f"Welcome User {st.session_state.user_id}")
+    st.write(f"The store name is {st.session_state.store_name}")
+    
 
 
 if st.button("Logout"):
