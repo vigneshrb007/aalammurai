@@ -43,13 +43,14 @@ if st.button("Login"):
         st.error("Please enter both username and password")
     else:
         # # Call the function
-        qurry = f"SELECT ISNULL(ID,0) AS RST FROM USERS WHERE MOBILENO = '{username}' AND PASSWORD = '{password}'"
+        qurry = f"SELECT ID, STORENAME FROM USERS WHERE MOBILENO = '{username}' AND PASSWORD = '{password}'"
         df = fetch_orders(qurry)
 
         # Display results
         if not df.empty and df.iloc[0, 0] > 0:
             st.session_state.logged_in = True
             st.session_state.user_id = username
+            st.session_state.store_name = df.iloc[0, 1]  # Assuming STORENAME is the second column
             st.success("Login successful!")
                 # Redirect to another page
             st.switch_page("pages/page_2.py")
