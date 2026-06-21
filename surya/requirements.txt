@@ -1,5 +1,5 @@
 streamlit
 pandas
 pyodbc
-streamlit_local_storage
+streamlit-local-storage
 extra-streamlit-components
