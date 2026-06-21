@@ -6,29 +6,24 @@ from config import insert_data_sql
 import extra_streamlit_components as stx
 import datetime
 import time
+from streamlit_local_storage import LocalStorage
 
-
-cookie_manager = stx.CookieManager()
-
-
-st.set_page_config(
-    page_title="My App",
-    initial_sidebar_state="collapsed"
-)
+localS = LocalStorage()
 
 
 
-# Page setup
-# st.set_page_config(page_title="Web Layout Demo", layout="wide")
+# Read
+user_id = localS.getItem("user_id")
+storename = localS.getItem("storename")
+st.write(f"Welcome User {user_id}")
+st.write(f"Store Name: {storename}")
 
 
 
 
-st.set_page_config(page_title="Login System")
 
-if "user_id" in st.session_state:
-    st.write(f"Welcome User {st.session_state.user_id}")
 
+#==============================================================================================
 
 
 st.title("Login")
@@ -48,14 +43,29 @@ if st.button("Login"):
 
         # Display results
         if not df.empty and df.iloc[0, 0] > 0:
-            st.session_state.logged_in = True
-            st.session_state.user_id = username
-            st.session_state.store_name = df.iloc[0, 1]  # Assuming STORENAME is the second column
+            storename = df.iloc[0, 1]  # Get the store name from the DataFrame
+            # Save
+            localS.setItem("user_id", username, key="user_id_storage")
+            localS.setItem("storename", storename, key="storename_storage")
+            time.sleep(1)
             st.success("Login successful!")
-                # Redirect to another page
+            # Redirect to another page
             st.switch_page("pages/page_2.py")
         else:
             st.error("Invalid credentials")
+
+
+# ==============================================================================================
+
+
+
+
+
+
+
+
+
+
 
 
 
